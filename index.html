@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonkey Memecoin Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* General styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url(images/back.jpeg);
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            overflow-y: scroll; /* Enable vertical scrolling */
+                min-height: 100vh; /* Ensure body height grows with content */
+        }
+
+
+        .navbar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+        }
+
+        .navbar li {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .navbar a img {
+            width: 100px;
+            height: 100px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .navbar a img:hover {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            .navbar {
+                top: 10px;
+                right: 10px;
+            }
+
+            .navbar li {
+                margin-left: 10px;
+            }
+
+            .navbar a img {
+                width: 25px;
+                height: 25px;
+            }
+        }
+
+        h1 {
+    font-size: 4rem;
+    margin-top: 100px; /* Adjusted to make space for fixed navbar */
+    color: #8a2be2;
+    text-shadow: 0 0 15px #8a2be2, 0 0 25px #551a8b, 0 0 35px #4b0082;
+    animation: pulse 2s infinite alternate;
+    text-align: center; /* Center the text */
+    width: 100%; /* Ensure it takes the full width */
+    position: relative; /* This is optional; can help with positioning if needed */
+}
+
+
+        @keyframes pulse {
+            from {
+                text-shadow: 0 0 15px #8a2be2, 0 0 25px #551a8b, 0 0 35px #4b0082;
+            }
+            to {
+                text-shadow: 0 0 30px #8a2be2, 0 0 45px #551a8b, 0 0 60px #4b0082;
+            }
+        }
+
+        .content {
+            margin-top: 120px; /* Make space for h1 and navbar */
+            padding: 20px; /* Add some padding for content */
+            text-align: center;
+        }
+
+        .coin {
+            width: 400px; /* Made the image bigger */
+            animation: rotateCoin 5s infinite linear;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes rotateCoin {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 20px;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            background-color: #4b0082;
+            color: #fff;
+            border: 2px solid #8a2be2;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #551a8b;
+            transform: scale(1.1);
+        }
+
+        .trail {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #8a2be2;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        footer a {
+            margin: 0 15px;
+            color: #8a2be2;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s;
+            text-shadow: 0 0 10px #551a8b;
+        }
+
+        footer a:hover {
+            color: #dda0dd;
+        }
+
+        .timer {
+            font-size: 2rem;
+            margin-top: 10px;
+            color: #dda0dd;
+            text-shadow: 0 0 10px #8a2be2;
+        }
+
+        /* Bids section */
+        .bids-section {
+            margin-top: 50px;
+            text-align: center; /* Center align the bids section */
+        }
+
+        .bid-input {
+            margin: 20px;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 2px solid #8a2be2;
+            background-color: #333;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .bid-list {
+            margin-top: 20px;
+            text-align: left;
+            width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #8a2be2;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+
+        .bid-item {
+            padding: 10px;
+            color: #dda0dd;
+            border-bottom: 1px solid #444;
+        }
+
+        .no-bids {
+            color: #dda0dd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Get Your Gently Used Moo Deng Now</h1>
+    <nav class="navbar">
+        <ul>
+            <li>
+                <a href="https://x.com/usedeng_" id="twitter-link" target="_blank" rel="noopener noreferrer">
+                    <img src="images/image-removebg-preview (21).png" alt="Twitter">
+                </a>
+            </li>
+            <li>
+                <a href="https://t.me/+kqfcLfbhYr1lMDA0" id="telegram-link" target="_blank" rel="noopener noreferrer">
+                    <img src="images/telegram_icon__1_-removebg-preview.png" alt="Telegram">
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    
+
+    <div class="content">
+        <img class="coin" src="images/460338167_543284354878326_8062202962983340092_n-1-806x604-1.jpg" alt="Bonkey Memecoin">
+
+        <div class="actions">
+            <button class="btn" id="buyBtn">Buy Now</button>
+        </div>
+
+        <div class="bids-section">
+            <h2 style="color:#8a2be2;">Place Your Bid</h2>
+            <input type="number" class="bid-input" id="bidAmount" placeholder="Enter bid amount" min="1">
+            <button class="btn" id="bidBtn">Place Bid</button>
+
+            <div class="bid-list" id="bidList">
+                <p class="no-bids" id="noBidsMessage">No bids yet. Be the first!</p>
+            </div>
+        </div>
+
+        <div class="timer" id="timer">Time Left: 00:00:00</div>
+    </div>
+
+
+
+
+    <script>
+        // Cursor trail effect
+        document.addEventListener('mousemove', function (e) {
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            document.body.appendChild(trail);
+            trail.style.left = `${e.pageX}px`;
+            trail.style.top = `${e.pageY}px`;
+
+            setTimeout(() => {
+                trail.remove();
+            }, 500);
+        });
+
+        // Countdown Timer (for bidding)
+        const timerDisplay = document.getElementById('timer');
+        let countdownTime = new Date().getTime() + 5 * 60 * 1000; // 5 minutes from now
+
+        const updateTimer = setInterval(function () {
+            let now = new Date().getTime();
+            let distance = countdownTime - now;
+
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            timerDisplay.innerHTML = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            if (distance < 0) {
+                clearInterval(updateTimer);
+                timerDisplay.innerHTML = "EXPIRED";
+            }
+        }, 1000);
+
+        // Bid handling
+        const bidBtn = document.getElementById('bidBtn');
+        const bidAmountInput = document.getElementById('bidAmount');
+        const bidList = document.getElementById('bidList');
+        const noBidsMessage = document.getElementById('noBidsMessage');
+
+        bidBtn.addEventListener('click', () => {
+            const bidAmount = bidAmountInput.value;
+            if (bidAmount) {
+                const bidItem = document.createElement('div');
+                bidItem.className = 'bid-item';
+                bidItem.textContent = `Bid: ${bidAmount} $USEDENG`;
+                bidList.appendChild(bidItem);
+                noBidsMessage.style.display = 'none'; // Hide "no bids" message
+                bidAmountInput.value = ''; // Clear input field
+            }
+        });
+    </script>
+</body>
+</html>
